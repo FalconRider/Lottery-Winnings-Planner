@@ -1,0 +1,133 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<!  This project is a local storage test which gives  you 5 MB of Persistent memory from an html page. >
+<!It's a recast of a todo list I found somewhere. >
+
+<style>
+	
+body {
+  margin: 40;
+  background-color: orange;
+  color: black;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+       text-align: center;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.header {
+  padding: 10px 16px;
+  background: green;
+  color: yellow;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.content {
+  padding: 16px;
+}
+
+</style>
+
+
+
+
+</head>
+
+<!  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx PG 2020   hb>
+
+<body>
+	
+<h1>WHAT WOULD I BUY <br> IF I WON THE LOTTERY?</h1>
+
+
+<hr>
+
+<H2>    Enter Item Name and Cost like <br> " Lambo  $300,000 " or " Brazil for a Month $20,000 " for example,<br> Hit ENTER Button  to add to a list below. <br> Enter more and more and more !!! <br> <br>You can exit the program to go buy your winning ticket.<br> Come back and Restart and it will remember your list. <br>Uses HTML5's LOCAL STORAGE. Inspect the code to see how. <br>  Delete items with the REMOVE box beside them<H2>
+
+  <br> <h5> For Amusement Only. Just a Coding Exercise<h5>
+
+
+<input id="task"><button id="add"> < ENTER ITEM And HIT this Button</button>
+
+
+</body>
+
+
+<hr>
+<h1>MY LIST</h1>
+<div id="iwon"></div>
+<hr>
+ 
+<script>
+
+// js comment vvvvvvvvvvvvvvvvvvvvvvvvvvvv	
+
+function get_iwon() {
+    var iwon = new Array;
+    var iwon_str = localStorage.getItem('iwon');
+    if (iwon_str !== null) {
+        iwon = JSON.parse(iwon_str); 
+    }
+    return iwon;
+}
+ 
+function add() {
+    var task = document.getElementById('task').value;
+ 
+    var iwon = get_iwon();
+    iwon.push(task);
+    localStorage.setItem('iwon', JSON.stringify(iwon));
+ 
+    show();
+ 
+    return false;
+}
+ 
+function remove() {
+    var id = this.getAttribute('id');
+    var iwon = get_iwon();
+    iwon.splice(id, 1);
+    localStorage.setItem('iwon', JSON.stringify(iwon));
+ 
+    show();
+ 
+    return false;
+}
+ 
+function show() {
+    var iwon = get_iwon();
+ 
+    var html = '<ul>';
+    for(var i=0; i<iwon.length; i++) {
+        html += '<li>' + iwon[i] + '<button class="remove" id="' + i  + '">   Hit to REMOVE Item</button></li>';
+    };
+    html += '</ol>';
+ 
+    document.getElementById('iwon').innerHTML = html;
+ 
+    var buttons = document.getElementsByClassName('remove');
+    for (var i=0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', remove);
+    };
+}
+ 
+document.getElementById('add').addEventListener('click', add);
+show();
+
+
+
+</script>
+</body>
+</html>
+ 
